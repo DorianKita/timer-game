@@ -7,6 +7,7 @@ export default function Player() {
 
   function handleNameChange() {
     setName(inputValue.current.value);
+    inputValue.current.value = "";
   }
 
   return (
