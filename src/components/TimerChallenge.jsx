@@ -1,14 +1,37 @@
+import { useState } from "react";
+
 export default function TimerChallenge({ title, targetTime }) {
+  const [timeExpired, setTimerExpired] = useState(false);
+  const [timerStarted, setTimerStarted] = useState(false);
+
+  let timer;
+
+  function handleStart() {
+    setTimerStarted(true);
+    timer = setTimeout(() => {
+      setTimerExpired(true);
+    }, targetTime * 1000);
+  }
+
+  function handleStop() {
+    clearTimeout(timer);
+  }
+
   return (
     <section className="challenge">
       <h2>{title}</h2>
+      {timeExpired && <p>You Lost!</p>}
       <p className="challenge-time">
         {targetTime} second{targetTime > 1 ? "s" : ""}
       </p>
       <p>
-        <button>Start Challenge</button>
+        <button onClick={timerStarted ? handleStop : handleStart}>
+          {timerStarted ? "Stop" : "Start"} Challenge
+        </button>
       </p>
-      <p className="">Time is running... /Timer inactive</p>
+      <p className={timerStarted ? "active" : undefined}>
+        {timerStarted ? "Time is running..." : "Timer inactive"}
+      </p>
     </section>
   );
 }
